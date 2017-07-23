@@ -12,8 +12,10 @@ class Handler(BaseHTTPRequestHandler):
 
             name_list =""
             names = q.res_names()
+            edit = "<a href='#'>Edit</a>"
+            delete = "<a href='#'>Delete</a>"
             for x in names:
-                name_list+="<h3>{}</h3>".format(x)
+                name_list+="<h3>{}</h3><h4>{} {}</h4><br>".format(x,edit,delete)
 
             out = "<html><body>{}</body></html>".format(name_list)
             self.wfile.write(out)
