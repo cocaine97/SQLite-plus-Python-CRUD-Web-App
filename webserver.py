@@ -10,12 +10,12 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header('Content-Type','text/html')
             self.end_headers()
 
-            name_list =""
-            names = q.res_names()
-            edit = "<a href='#'>Edit</a>"
-            delete = "<a href='#'>Delete</a>"
-            for x in names:
-                name_list+="<h3>{}</h3><h4>{} {}</h4><br>".format(x,edit,delete)
+            data = q.res_data()
+            name_list=""
+            for x in data:
+                edit = "<a href='/{}/edit'>Edit</a>".format(x.id)
+                delete = "<a href='/{}/delete'>Delete</a>".format(x.id)
+                name_list+="<h3>{}</h3><h4>{} {}</h4><br>".format(x.name,edit,delete)
 
             out = "<html><body><a href='/restaurants/new'>Create a new Restaurant</a>{}</body></html>".format(name_list)
             self.wfile.write(out)
