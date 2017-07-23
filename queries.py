@@ -10,3 +10,9 @@ session = DBSC()
 
 res = session.query(Restaurant).all()
 item = session.query(MenuItem).all()
+
+def res_names():
+    names = []
+    for x in res:
+        names.append(x.name)
+    return names
