@@ -8,11 +8,18 @@ Base.metadata.bind = engine
 DBSC = sessionmaker(bind = engine)
 session = DBSC()
 
-res = session.query(Restaurant).all()
+
 item = session.query(MenuItem).all()
 
 def res_names():
+    res = session.query(Restaurant).all()
     names = []
     for x in res:
         names.append(x.name)
     return names
+
+def res_add(x):
+    naam = str(x)
+    temp = Restaurant(name=naam)
+    session.add(temp)
+    session.commit()
