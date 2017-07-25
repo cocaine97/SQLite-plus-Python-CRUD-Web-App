@@ -1,5 +1,6 @@
 from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 import cgi
+import re
 import queries as q
 
 
@@ -30,6 +31,24 @@ class Handler(BaseHTTPRequestHandler):
             self.wfile.write(out)
             return
 
+        if(self.path.endswith('/edit')):
+            #using regex to get the id of edit req, not very well executed
+            self.send_response(200)
+            self.send_header('Content-Type','text/html')
+            self.end_headers()
+            temp = re.split(r'/*/',self.path)
+            edit_id = temp
+            edit_name = q.res_name(edit_id[1])
+            edit_out = "<html><body>"
+            edit_out +="<h1>Edit {}</h1>".format(edit_name)
+            edit_out +="<form action='#' enctype='multipart/form-data' method='POST'><input type='text' name='new_name' placeholder='Enter new name here'><input type='Submit' value='Change'></form>"
+            self.wfile.write(edit_out)
+
+
+
+
+
+
     def do_POST(self):
         if(self.path.endswith("/restaurants/new")):
             ctype,pdict = cgi.parse_header(self.headers.getheader('Content-Type'))
@@ -43,6 +62,20 @@ class Handler(BaseHTTPRequestHandler):
                 self.end_headers()
                 return
 
+        if(self.path.endswith("/edit")):
+            ctype,pdict = cgi.parse_header(self.headers.getheader('Content-Type'))
+            if(ctype == 'multipart/form-data'):
+                fields = cgi.parse_multipart(self.rfile,pdict)
+                new_name = fields.get('new_name')[0]
+                temp= re.split('/*/',self.path)
+                temp_id = temp[1]
+                print(new_name)
+                q.res_edit_name(temp_id,new_name)
+
+                self.send_response(301)
+                self.send_header('Location','/restaurants')
+                self.end_headers()
+                return
 
 
 
