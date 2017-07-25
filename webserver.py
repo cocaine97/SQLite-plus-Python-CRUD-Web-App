@@ -14,8 +14,8 @@ class Handler(BaseHTTPRequestHandler):
             data = q.res_data()
             name_list=""
             for x in data:
-                edit = "<a href='/{}/edit'>Edit</a>".format(x.id)
-                delete = "<a href='/{}/delete'>Delete</a>".format(x.id)
+                edit = "<a href='/restaurants/{}/edit'>Edit</a>".format(x.id)
+                delete = "<a href='/restaurants/{}/delete'>Delete</a>".format(x.id)
                 name_list+="<h3>{}</h3><h4>{} {}</h4><br>".format(x.name,edit,delete)
 
             out = "<html><body><a href='/restaurants/new'>Create a new Restaurant</a>{}</body></html>".format(name_list)
@@ -36,17 +36,30 @@ class Handler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-Type','text/html')
             self.end_headers()
+
             temp = re.split(r'/*/',self.path)
-            edit_id = temp
-            edit_name = q.res_name(edit_id[1])
+            edit_id = temp[2]
+            edit_name = q.res_name(edit_id)
             edit_out = "<html><body>"
             edit_out +="<h1>Edit {}</h1>".format(edit_name)
             edit_out +="<form action='#' enctype='multipart/form-data' method='POST'><input type='text' name='new_name' placeholder='Enter new name here'><input type='Submit' value='Change'></form>"
             self.wfile.write(edit_out)
 
+        if(self.path.endswith('/delete')):
+            self.send_response(200)
+            self.send_header('Content-Type','text/html')
+            self.end_headers()
 
+            temp = re.split(r'/*/',self.path)
+            delete_id = temp[2]
+            delete_name = q.res_name(delete_id)
+            delete_out = "<html><body>"
+            delete_out +="<h1>Are you sure you want to delete {} ?</h1>".format(delete_name)
+            delete_out +="<form action='#' enctype='multipart/form-data' method='POST'><input type='Submit' value='Delete'></form>"
+            delete_out +="</body></html>"
 
-
+            self.wfile.write(delete_out)
+            return
 
 
     def do_POST(self):
@@ -68,7 +81,7 @@ class Handler(BaseHTTPRequestHandler):
                 fields = cgi.parse_multipart(self.rfile,pdict)
                 new_name = fields.get('new_name')[0]
                 temp= re.split('/*/',self.path)
-                temp_id = temp[1]
+                temp_id = temp[2]
                 print(new_name)
                 q.res_edit_name(temp_id,new_name)
 
@@ -77,6 +90,17 @@ class Handler(BaseHTTPRequestHandler):
                 self.end_headers()
                 return
 
+        if(self.path.endswith("/delete")):
+            ctype,pdict = cgi.parse_header(self.headers.getheader('Content-Type'))
+            if(ctype == 'multipart/form-data'):
+                temp = re.split('/*/',self.path)
+                delete_id = temp[2]
+                q.res_delete(delete_id)
+
+                self.send_response(301)
+                self.send_header('Location','/restaurants')
+                self.end_headers()
+                return
 
 
 
