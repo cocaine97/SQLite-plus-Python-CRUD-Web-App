@@ -14,9 +14,22 @@ def menu(res_id):
     res_name = q.res_name(r_id)
     return render_template('menu.html',menu_data=menu_data,res_name=res_name,r_id=r_id)
 
-@app.route('/restaurants/<int:res_id>/menu/create/')
+
+@app.route('/restaurants/<int:res_id>/menu/create/',methods=['GET','POST'])
 def newMenuItem(res_id):
-    return "Create a new menu for restaurant {}".format(res_id)
+    if(request.method=="POST"):
+        item_name = request.form['name']
+        item_price = request.form['price']
+        item_desc = request.form['desc']
+        if(item_price == ''):
+            item_price = 'Empty'
+        if(item_desc == ''):
+            item_desc = 'Empty'
+        q.item_add(res_id,item_name,item_price,item_desc)
+        return redirect(url_for('menu',res_id=res_id))
+
+    res_name = q.res_name(res_id)
+    return render_template('create.html',res_id=res_id,res_name=res_name)
 
 @app.route('/restaurants/<int:res_id>/menu/<int:menu_id>/edit/',methods=['GET','POST'])
 def editMenuItem(res_id,menu_id):

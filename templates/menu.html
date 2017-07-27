@@ -6,6 +6,7 @@
   </head>
   <body>
     <h1>{{res_name}}</h1>
+    <a href="{{url_for('newMenuItem',res_id=r_id)}}">Add a dish</a>
     {% for menu in menu_data %}
 <h3>{{menu.name}}</h3>
 <h3>{{menu.price}}</h3>

@@ -51,6 +51,12 @@ def item_data_p(r,m):
     data = session.query(MenuItem).filter_by(restaurant_id = r,id=m).one()
     return data
 
+def item_add(res_id,item_name,item_price,item_desc):
+    data = MenuItem(restaurant_id=res_id,name=item_name,price=item_price,description=item_desc)
+    session.add(data)
+    session.commit()
+
+
 def item_edit(res_id,item_id,item_name,item_price,item_desc):
     data = session.query(MenuItem).filter_by(restaurant_id = res_id,id=item_id).one()
     data.name = item_name
