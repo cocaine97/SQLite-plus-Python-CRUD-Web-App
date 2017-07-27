@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Menu</title>
+  </head>
+  <body>
+    <h1>{{res_name}}</h1>
+    {% for menu in menu_data %}
+<h3>{{menu.name}}</h3>
+<h3>{{menu.price}}</h3>
+<h3>{{menu.description}}</h3>
+<h3><a href={{url_for('editMenuItem',res_id=r_id,menu_id=menu.id)}}>Edit</a>&nbsp;<a href={{url_for('deleteMenuItem',res_id=r_id,menu_id=menu.id)}}>Delete</a></h3>
+<br>
+{%endfor%}
+  </body>
+</html>

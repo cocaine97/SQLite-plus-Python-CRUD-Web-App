@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+<form action="{{url_for('editMenuItem',res_id=res_id,menu_id=menu_id)}}" method="POST">
+<h1>Edit {{res_name}}</h1>
+<fieldset>
+  <h3><label for="name">New Name</label><input type="text" name="name" placeholder="{{res_menu_data.name}}"></h3>
+  <h3><label for="price">New Price</label><input type="text" name="price" placeholder="{{res_menu_data.price}}"></h3>
+  <h3><label for="desc">New description</label><input type="text" size="50" name="desc" placeholder="{{res_menu_data.description}}"></h3>
+  <input type="Submit" value="Edit">&nbsp; <a href="{{url_for('menu',res_id=res_id)}}">Kancel</a>
+</fieldset>
+</form>
+  </body>
+</html>

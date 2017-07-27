@@ -46,3 +46,14 @@ def res_edit(id,naam):
 def item_data(x):
     data = session.query(MenuItem).filter_by(restaurant_id = x)
     return data
+
+def item_data_p(r,m):
+    data = session.query(MenuItem).filter_by(restaurant_id = r,id=m).one()
+    return data
+
+def item_edit(res_id,item_id,item_name,item_price,item_desc):
+    data = session.query(MenuItem).filter_by(restaurant_id = res_id,id=item_id).one()
+    data.name = item_name
+    data.price = item_price
+    data.description = item_desc
+    session.commit()
