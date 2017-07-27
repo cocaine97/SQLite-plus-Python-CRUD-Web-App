@@ -10,7 +10,7 @@ DBSC = sessionmaker(bind = engine)
 session = DBSC()
 
 
-#item = session.query(MenuItem).all()
+# ------    Restaurant Queries -------
 
 def res_data():
     data = session.query(Restaurant).all()
@@ -36,7 +36,13 @@ def res_add(x):
     session.add(temp)
     session.commit()
 
-def res_edit(idd,naam):
+def res_edit(id,naam):
     temp = session.query(Restaurant).filter_by(id=idd).one()
     temp.name = naam
     session.commit()
+
+
+# -------- MenuItem Queries --------
+def item_data(x):
+    data = session.query(MenuItem).filter_by(restaurant_id = x)
+    return data
