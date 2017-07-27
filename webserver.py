@@ -32,7 +32,7 @@ def editMenuItem(res_id,menu_id):
                 item_price = item_old.price
             if(item_desc==''):
                 item_desc = item_old.description
-                
+
         q.item_edit(res_id,menu_id,item_name,item_price,item_desc)
         return redirect(url_for('menu',res_id=res_id))
 
@@ -40,9 +40,14 @@ def editMenuItem(res_id,menu_id):
     res_menu_data = q.item_data_p(res_id,menu_id)
     return render_template('edit_menu.html',res_id=res_id,menu_id=menu_id,res_name=res_name,res_menu_data=res_menu_data)
 
-@app.route('/restaurants/<int:res_id>/menu/<int:menu_id>/delete/')
+@app.route('/restaurants/<int:res_id>/menu/<int:menu_id>/delete/',methods=['GET','POST'])
 def deleteMenuItem(res_id,menu_id):
-    return "Delete {}\'s menu number {}".format(res_id,menu_id)
+    if(request.method=="POST"):
+        q.item_delete(res_id,menu_id)
+        return redirect(url_for('menu',res_id=res_id,menu_id=menu_id))
+    res_name = q.res_name(res_id)
+    item_name = q.item_data_p(res_id,menu_id).name
+    return render_template('delete_menu.html',res_name=res_name,item_name=item_name,res_id=res_id,menu_id=menu_id)
 
 if(__name__ == "__main__"):
     app.debug = True

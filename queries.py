@@ -57,3 +57,8 @@ def item_edit(res_id,item_id,item_name,item_price,item_desc):
     data.price = item_price
     data.description = item_desc
     session.commit()
+
+def item_delete(res_id,item_id):
+    session.query(MenuItem).filter_by(restaurant_id = res_id,id=item_id).\
+    delete(synchronize_session='evaluate')
+    session.commit()
