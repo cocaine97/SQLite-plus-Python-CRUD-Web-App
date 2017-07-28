@@ -1,4 +1,4 @@
-from flask import Flask,render_template,url_for,request,redirect,flash
+from flask import Flask,render_template,url_for,request,redirect,flash,jsonify
 import queries as q
 
 
@@ -13,7 +13,6 @@ def menu(res_id):
     menu_data = q.item_data(r_id)
     res_name = q.res_name(r_id)
     return render_template('menu.html',menu_data=menu_data,res_name=res_name,r_id=r_id)
-        
 
 @app.route('/restaurants/<int:res_id>/menu/create/',methods=['GET','POST'])
 def newMenuItem(res_id):
@@ -70,6 +69,18 @@ def deleteMenuItem(res_id,menu_id):
     res_name = q.res_name(res_id)
     item_name = q.item_data_p(res_id,menu_id).name
     return render_template('delete_menu.html',res_name=res_name,item_name=item_name,res_id=res_id,menu_id=menu_id)
+
+    #JSON Routes ---
+@app.route('/restaurants/<int:res_id>/menu/JSON')
+def res_menu_JSON(res_id):
+    #res_data = q.res_data_p(res_id)
+    item_data = q.item_data(res_id)
+    return jsonify(MenuItem = [item.serialize for item in item_data])
+
+@app.route('/restaurants/<int:res_id>/menu/<int:menu_id>/JSON')
+def res_menu_p_JSON(res_id,menu_id):
+    item_data = q.item_data_p(res_id,menu_id)
+    return jsonify(MenuItem = [item_data.serialize])
 
 if(__name__ == "__main__"):
     app.secret_key = "dfg12345"

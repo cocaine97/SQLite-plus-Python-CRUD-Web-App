@@ -17,7 +17,7 @@
 
     <div class="container">
       <div class="row">
-        <div class="jumbotron flash">
+        <div class="col-md-12 flash">
           {%with messages = get_flashed_messages()%}
           {% if messages%}
 
@@ -31,13 +31,13 @@
       </div>
 
 <div class="row">
-  <div class="col-md-12">
-    <a href="{{url_for('newMenuItem',res_id=r_id)}}">Add a dish</a>
+  <div class="col-md-12 add">
+    <a href="{{url_for('newMenuItem',res_id=r_id)}}">+ Add a dish</a>
   </div>
 </div>
 {% for menu in menu_data %}
 <div class="row">
-  <div class="jumbotron menu_item">
+  <div class="col-md-12 menu_item">
     <h3>{{menu.name}}</h3>
     <h3>{{menu.price}}</h3>
     <h3>{{menu.description}}</h3>
