@@ -6,6 +6,15 @@
   </head>
   <body>
     <h1>{{res_name}}</h1>
+    {%with messages = get_flashed_messages()%}
+    {% if messages%}
+    <ul>
+      {%for message in messages%}
+      <li>{{message}}</li>
+      {%endfor%}
+    </ul>
+    {%endif%}
+    {%endwith%}
     <a href="{{url_for('newMenuItem',res_id=r_id)}}">Add a dish</a>
     {% for menu in menu_data %}
 <h3>{{menu.name}}</h3>

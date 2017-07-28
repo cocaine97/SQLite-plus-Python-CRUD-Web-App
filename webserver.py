@@ -1,4 +1,4 @@
-from flask import Flask,render_template,url_for,request,redirect
+from flask import Flask,render_template,url_for,request,redirect,flash
 import queries as q
 
 
@@ -26,6 +26,7 @@ def newMenuItem(res_id):
         if(item_desc == ''):
             item_desc = 'Empty'
         q.item_add(res_id,item_name,item_price,item_desc)
+        flash('New item created!')
         return redirect(url_for('menu',res_id=res_id))
 
     res_name = q.res_name(res_id)
@@ -63,5 +64,6 @@ def deleteMenuItem(res_id,menu_id):
     return render_template('delete_menu.html',res_name=res_name,item_name=item_name,res_id=res_id,menu_id=menu_id)
 
 if(__name__ == "__main__"):
+    app.secret_key = "dfg12345"
     app.debug = True
     app.run(host="0.0.0.0",port = 5000)
