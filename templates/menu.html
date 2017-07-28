@@ -2,26 +2,49 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/main.css">
     <title>Menu</title>
   </head>
   <body>
-    <h1>{{res_name}}</h1>
-    {%with messages = get_flashed_messages()%}
-    {% if messages%}
-    <ul>
-      {%for message in messages%}
-      <li>{{message}}</li>
-      {%endfor%}
-    </ul>
-    {%endif%}
-    {%endwith%}
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <header class="navbar-header">
+           <a href="#" class="navbar-brand">{{res_name}}</a>
+        </header>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron flash">
+          {%with messages = get_flashed_messages()%}
+          {% if messages%}
+
+            {%for message in messages%}
+            <h3>{{message}}</h3>
+            {%endfor%}
+            {%endif%}
+          {%endwith%}
+        </div>
+
+      </div>
+
+<div class="row">
+  <div class="col-md-12">
     <a href="{{url_for('newMenuItem',res_id=r_id)}}">Add a dish</a>
-    {% for menu in menu_data %}
-<h3>{{menu.name}}</h3>
-<h3>{{menu.price}}</h3>
-<h3>{{menu.description}}</h3>
-<h3><a href={{url_for('editMenuItem',res_id=r_id,menu_id=menu.id)}}>Edit</a>&nbsp;<a href={{url_for('deleteMenuItem',res_id=r_id,menu_id=menu.id)}}>Delete</a></h3>
-<br>
+  </div>
+</div>
+{% for menu in menu_data %}
+<div class="row">
+  <div class="jumbotron menu_item">
+    <h3>{{menu.name}}</h3>
+    <h3>{{menu.price}}</h3>
+    <h3>{{menu.description}}</h3>
+    <h3><a href={{url_for('editMenuItem',res_id=r_id,menu_id=menu.id)}}>Edit</a>&nbsp;<a href={{url_for('deleteMenuItem',res_id=r_id,menu_id=menu.id)}}>Delete</a></h3>
+  </div>
+</div>
 {%endfor%}
+    </div>
   </body>
 </html>

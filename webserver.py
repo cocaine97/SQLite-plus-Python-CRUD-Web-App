@@ -13,7 +13,7 @@ def menu(res_id):
     menu_data = q.item_data(r_id)
     res_name = q.res_name(r_id)
     return render_template('menu.html',menu_data=menu_data,res_name=res_name,r_id=r_id)
-
+        
 
 @app.route('/restaurants/<int:res_id>/menu/create/',methods=['GET','POST'])
 def newMenuItem(res_id):

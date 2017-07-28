@@ -1,0 +1,15 @@
+body{
+  background-color:#212121;
+  color: white;
+}
+
+.container{
+margin-top: 60px;
+}
+a{
+  color:green;
+}
+
+.flash{background-color: gray;}
+
+.menu_item{background-color: #313131;margin-top: 5px;}
