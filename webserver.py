@@ -26,7 +26,7 @@ def newMenuItem(res_id):
         if(item_desc == ''):
             item_desc = 'Empty'
         q.item_add(res_id,item_name,item_price,item_desc)
-        flash('New item created!')
+        flash('{} created!'.format(item_name))
         return redirect(url_for('menu',res_id=res_id))
 
     res_name = q.res_name(res_id)
@@ -46,8 +46,13 @@ def editMenuItem(res_id,menu_id):
                 item_price = item_old.price
             if(item_desc==''):
                 item_desc = item_old.description
+            if(item_name == item_old.name and item_price == item_old.price and item_desc == item_old.description):
+                flash_changes = "No changes made to {} .".format(item_name)
+            else:
+                flash_changes = "Changes saved successfully!"
 
         q.item_edit(res_id,menu_id,item_name,item_price,item_desc)
+        flash(flash_changes)
         return redirect(url_for('menu',res_id=res_id))
 
     res_name = q.res_name(res_id)
@@ -57,7 +62,10 @@ def editMenuItem(res_id,menu_id):
 @app.route('/restaurants/<int:res_id>/menu/<int:menu_id>/delete/',methods=['GET','POST'])
 def deleteMenuItem(res_id,menu_id):
     if(request.method=="POST"):
+        item_name = q.item_data_p(res_id,menu_id).name
         q.item_delete(res_id,menu_id)
+        flash("{} removed.".format(item_name))
+
         return redirect(url_for('menu',res_id=res_id,menu_id=menu_id))
     res_name = q.res_name(res_id)
     item_name = q.item_data_p(res_id,menu_id).name
