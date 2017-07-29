@@ -10,11 +10,17 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h1>Are you sure you want to delete {{res_name}}?</h1>
+          <h1>Delete {{res_name}}</h1>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Are you sure you want to delete {{res_name}}?</h2>
         </div>
       </div>
       <form action="{{url_for('deleteRestaurant',res_id=res_id)}}" method="post">
-        <input type="submit" name="" value="Delete"><a href="{{url_for('names')}}">Kancel</a>
+        <input type="submit" name="" value="Delete"><a href="{{url_for('names')}}"> Kancel</a>
       </form>
     </div>
   </body>
