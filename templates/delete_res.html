@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <title>Delete Restaurant</title>
   </head>
-  <body>
+  <body class="form_style">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -14,7 +14,7 @@
         </div>
       </div>
       <form action="{{url_for('deleteRestaurant',res_id=res_id)}}" method="post">
-        <input type="submit" name="" value="Delete">
+        <input type="submit" name="" value="Delete"><a href="{{url_for('names')}}">Kancel</a>
       </form>
     </div>
   </body>

@@ -4,17 +4,21 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/main.css">
+    <link async defer href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
     <title>Menu</title>
   </head>
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
-        <header class="navbar-header">
+        <header class="navbar-header pull-left">
+          <a class="navbar-brand" href="{{url_for('names')}}">Home</a>
+        </header>
+        <header class="navbar-header pull-right">
            <a href="#" class="navbar-brand">{{res_name}}</a>
         </header>
-        <ul class="nav navbar-nav">
-          <li><a href="{{url_for('names')}}">Home</a></li>
-        </ul>
+
+
+
       </div>
     </div>
 
@@ -25,7 +29,7 @@
           {% if messages%}
 
             {%for message in messages%}
-            <h3>{{message}}</h3>
+            <span>{{message}}</span>
             {%endfor%}
             {%endif%}
           {%endwith%}
@@ -52,7 +56,7 @@
 {%else%}
 <div class="row">
   <div class="col-md-12 menu_item">
-    <h3>No Data Found</h3>
+    <h3>No Data Found.</h3>
   </div>
   {%endif%}
 </div>
