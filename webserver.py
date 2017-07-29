@@ -8,22 +8,43 @@ app = Flask(__name__)
 def names():
     res_data = q.res_data()
     return render_template('main_page.html',res_data=res_data)
-
-@app.route('/restaurants/<int:res_id>/edit')
+@app.route('/restaurants/new',methods=['GET','POST'])
+def addRestaurant():
+    if(request.method=='POST'):
+        name = request.form['name']
+        q.res_add(name)
+        flash("{} added to database successfully!".format(name))
+        return redirect(url_for('names'))
+    return render_template('add_res.html')
+@app.route('/restaurants/<int:res_id>/edit',methods=['GET','POST'])
 def editRestaurant(res_id):
+    res_name = q.res_name(res_id)
+    if(request.method=="POST"):
+        new_name = request.form['res_new_name']
+        if(new_name == '' or new_name == res_name):
+            new_name = res_name
+            flash('No changes made to {}'.format(new_name))
+            return redirect(url_for('names'))
+        else:
+            q.res_edit(res_id,new_name)
+            flash('{} renamed to {} successfully'.format(res_name,new_name))
+            return redirect(url_for('names'))
     res_id = res_id
-    q.res_edit(res_id)
+    return render_template('edit_res.html',res_id=res_id,res_name=res_name)
 
-@app.route('/restaurants/<int:res_id>/delete')
+@app.route('/restaurants/<int:res_id>/delete',methods=['GET','POST'])
 def deleteRestaurant(res_id):
-    return "Under Construction"
-
+    res_name = q.res_name(res_id)
+    if(request.method=="POST"):
+        q.res_delete(res_id)
+        flash("{} removed successfully".format(res_name))
+        return redirect(url_for('names'))
+    return render_template('delete_res.html',res_id=res_id,res_name=res_name)
 @app.route('/restaurants/<int:res_id>/menu/')
 def menu(res_id):
     r_id = res_id
     menu_data = q.item_data(r_id)
     flag = menu_data.first()
-    print(flag)
     res_name = q.res_name(r_id)
     #print(menu_data)
     return render_template('menu.html',menu_data=menu_data,res_name=res_name,r_id=r_id,flag=flag)

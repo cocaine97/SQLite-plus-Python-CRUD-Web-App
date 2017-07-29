@@ -18,11 +18,14 @@
       </section>
 </section>
 <section class="row">
-
-
       <section class="col-md-12 full">
         <img src="../static/main_page.jpg" class="img-responsive" width="100%">
       </section>
+</section>
+<section class="row">
+<section class="col-md-12 full">
+<a href="{{url_for('addRestaurant')}}">+ Add new Restaurant</a>
+</section>
 </section>
       {%if res_data%}
 
@@ -37,8 +40,18 @@
   </div>
   </section>
   {%endfor%}
-
+<div class="row">
+<div class="col-md-12 flash navbar-fixed-bottom">
   {%endif%}
+  {%with messages=get_flashed_messages()%}
+  {%if messages%}
+  {%for message in messages%}
+  <h3>{{message}}</h3>
+  {%endfor%}
+  {%endif%}
+  {%endwith%}
+  </div>
+  </div>
       </article>
 
 

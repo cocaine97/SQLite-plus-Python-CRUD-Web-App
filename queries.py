@@ -42,7 +42,7 @@ def res_add(x):
     session.commit()
 
 def res_edit(id,naam):
-    temp = session.query(Restaurant).filter_by(id=idd).one()
+    temp = session.query(Restaurant).filter_by(id=id).one()
     temp.name = naam
     session.commit()
 
