@@ -6,13 +6,27 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/restaurants')
 def names():
+    res_data = q.res_data()
+    return render_template('main_page.html',res_data=res_data)
+
+@app.route('/restaurants/<int:res_id>/edit')
+def editRestaurant(res_id):
+    res_id = res_id
+    q.res_edit(res_id)
+
+@app.route('/restaurants/<int:res_id>/delete')
+def deleteRestaurant(res_id):
     return "Under Construction"
+
 @app.route('/restaurants/<int:res_id>/menu/')
 def menu(res_id):
     r_id = res_id
     menu_data = q.item_data(r_id)
+    flag = menu_data.first()
+    print(flag)
     res_name = q.res_name(r_id)
-    return render_template('menu.html',menu_data=menu_data,res_name=res_name,r_id=r_id)
+    #print(menu_data)
+    return render_template('menu.html',menu_data=menu_data,res_name=res_name,r_id=r_id,flag=flag)
 
 @app.route('/restaurants/<int:res_id>/menu/create/',methods=['GET','POST'])
 def newMenuItem(res_id):

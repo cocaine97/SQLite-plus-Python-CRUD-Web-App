@@ -16,10 +16,11 @@ def res_data():
     data = session.query(Restaurant).all()
     return data
 
+
 def res_data_p(res_id):
     data = session.query(Restaurant).filter_by(id=res_id).one()
     return data
-    
+
 def res_delete(x):
     session.query(Restaurant).filter_by(id = x).\
     delete(synchronize_session='evaluate')

@@ -17,7 +17,7 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-md-12 flash">
+        <div class="col-md-12 flash navbar-fixed-bottom">
           {%with messages = get_flashed_messages()%}
           {% if messages%}
 
@@ -35,6 +35,7 @@
     <a href="{{url_for('newMenuItem',res_id=r_id)}}">+ Add a dish</a>
   </div>
 </div>
+{%if(flag != None)%}
 {% for menu in menu_data %}
 <div class="row">
   <div class="col-md-12 menu_item">
@@ -45,6 +46,13 @@
   </div>
 </div>
 {%endfor%}
+{%else%}
+<div class="row">
+  <div class="col-md-12 menu_item">
+    <h3>No Data Found</h3>
+  </div>
+  {%endif%}
+</div>
     </div>
   </body>
 </html>

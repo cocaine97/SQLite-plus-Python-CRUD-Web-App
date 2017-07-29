@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Restaurants</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='main.css')}}">
+  </head>
+  <body>
+    <article class="container-fluid">
+      <section class="row">
+      <section class="col-md-6 full main_header_left">
+        <h1>Restaurants</h1>
+      </section>
+
+      <section class="col-md-6 main_header_right full">
+        <h1>ABC</h1>
+      </section>
+</section>
+<section class="row">
+
+
+      <section class="col-md-12 full">
+        <img src="../static/main_page.jpg" class="img-responsive" width="100%">
+      </section>
+</section>
+      {%if res_data%}
+
+    {%for res in res_data%}
+  <section class="row">
+  <div class="col-md-6 full">
+  <a href="{{url_for('menu',res_id=res.id)}}">+</a>{{res.name}}
+  </div>
+
+  <div class="col-md-6 fully">
+  <p><a href="{{url_for('editRestaurant',res_id=res.id)}}">Edit</a> <a href="{{url_for('deleteRestaurant',res_id=res.id)}}">Delete</a></p>
+  </div>
+  </section>
+  {%endfor%}
+
+  {%endif%}
+      </article>
+
+
+  </body>
+</html>

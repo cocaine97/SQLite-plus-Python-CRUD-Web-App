@@ -1,15 +1,9 @@
-body{
-  background-color:#212121;
-  color: white;
-}
 
-.container{
-margin-top: 60px;
-}
-a{
-  color:green;
-}
 
-.flash{background-color: gray;}
-.add{background-color: #313131;font-size: 40px;}
-.menu_item{background-color: #313131;margin-top: 5px;}
+.flash{background-color: gray;margin-top: 50px;opacity: 0.5;}
+.add{background-color: #313131;font-size: 40px;margin-top: 60px;}
+.menu_item{background-color: #f1f1f1;margin-bottom: 15px;}
+
+.main_header_left{background-color: #f1f1f1;text-align: center;font-family: Helvetica;}
+.main_header_right{background-color: #f1f1f1;color:#212121;}
+.full{padding:0px;}
