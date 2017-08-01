@@ -1,8 +1,15 @@
 from flask import Flask,render_template,url_for,request,redirect,flash,jsonify
+from flask import session as login_session
+import string,random
 import queries as q
 
 
 app = Flask(__name__)
+@app.route('/login')
+def login():
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(32))
+    login_session['state']=state
+    return render_template('login.html')
 @app.route('/')
 @app.route('/restaurants')
 def names():
