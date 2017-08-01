@@ -23,5 +23,32 @@
     <div id="result">
 
     </div>
+    <script type="text/javascript">
+    function signInCB(authRes){
+      if(authRes['code'])
+      {
+        $("#signInButton").attr("style","display:none");
+
+        $.ajax({
+          type:"POST",
+          url:"/gconnect?state={{STATE}}",
+          processData:false,
+          contentType: 'application/octet-stream;charset=utf-8',
+          data:authRes['code'],
+          success: (res)=>{
+            if(res){
+              $('#result').html("<h3>Login successful! Redirecting</h3><h3>"+res+"</h3><h3>Redirecting . . .</h3>");
+              setTimeout(()=>{
+                window.locaiton.href = "/restaurants";
+              },4000);
+            }else if(authRes['error']){
+              $('#result').html("<h3>Sorry. An error occured. Error :"+authRes['error']+"</h3>")}
+              else{$("#result").html("<h3>Check yer damn connection ye cunt.</h3>");}
+          }
+        });
+      }
+    }
+
+    </script>
   </body>
 </html>
