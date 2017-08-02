@@ -15,12 +15,16 @@
       <div class="container-fluid">
         <div class="navbar-header pull-left">
           <a class="navbar-brand" href="#">Home</a>
+          {%if loggedin == 1%}
           <a class ="navbar-brand" href="{{url_for('addRestaurant')}}">Create</a>
+          {%endif%}
         </div>
 
         <ul class="nav navbar-nav navbar-right">
-          <li class="pull-right"><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-          <li class="pull-right"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          {%if loggedin==1%}
+          <li class="pull-right"><a href="{{url_for('gdisconnect')}}"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
+          {%endif%}
+          <li class="pull-right"><a href="{{url}}"><span class="glyphicon glyphicon-user"></span>{{username}}</a></li>
         </ul>
       </div>
     </nav>
@@ -48,8 +52,10 @@
 
   <a href="{{url_for('menu',res_id=res.id)}}">
 <span class="glow">{{res.name}}</span></a>
+{%if loggedin == 1%}
 <a class="edit_icon" href="{{url_for('editRestaurant',res_id=res.id)}}"><span><i class="fa fa-gear"></i></span></a>
 <a class="delete_icon" href="{{url_for('deleteRestaurant',res_id=res.id)}}"><span><i class="fa fa-trash"></i></span></a>
+{%endif%}
   </div>
   </section>
   {%endfor%}

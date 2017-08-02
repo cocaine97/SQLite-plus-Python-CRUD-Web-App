@@ -17,7 +17,7 @@
       data-accesstype="offline"
       data-cookiepolicy="single_host_origin"
       data-callback="signInCB"
-      data-approvalprompt="prompt"></span>
+      data-approvalprompt="force"></span>
     </div>
 
     <div id="result">
@@ -39,7 +39,7 @@
             if(res){
               $('#result').html("<h3>Login successful! Redirecting</h3><h3>"+res+"</h3><h3>Redirecting . . .</h3>");
               setTimeout(()=>{
-                window.locaiton.href = "/restaurants";
+                window.location.href = "/restaurants";
               },4000);
             }else if(authRes['error']){
               $('#result').html("<h3>Sorry. An error occured. Error :"+authRes['error']+"</h3>")}
