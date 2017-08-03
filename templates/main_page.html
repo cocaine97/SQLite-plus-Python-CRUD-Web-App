@@ -14,17 +14,18 @@
     <nav class="navbar navbar-inverse navbar-fixed-top col-xs-12">
       <div class="container-fluid">
         <div class="navbar-header pull-left">
-          <a class="navbar-brand" href="#">Home</a>
           {%if loggedin == 1%}
-          <a class ="navbar-brand" href="{{url_for('addRestaurant')}}">Create</a>
+          <a class="navbar-brand" href="{{url}}"><span class="glyphicon glyphicon-user"></span>{{username}}</a>
           {%endif%}
         </div>
-
         <ul class="nav navbar-nav navbar-right">
-          {%if loggedin==1%}
-          <li class="pull-right"><a href="{{url_for('gdisconnect')}}"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
+          {%if not loggedin%}
+          <li class="pull-right"><a href="{{url_for('showLogin')}}"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
           {%endif%}
-          <li class="pull-right"><a href="{{url}}"><span class="glyphicon glyphicon-user"></span>{{username}}</a></li>
+          {%if loggedin==1%}
+          <li class="pull-right"><a href="{{url_for('gdisconnect')}}"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+          <li class="pull-right"><a class ="navbar-brand" href="{{url_for('addRestaurant')}}">Create</a></li>
+          {%endif%}
         </ul>
       </div>
     </nav>

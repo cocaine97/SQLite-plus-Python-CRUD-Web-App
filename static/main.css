@@ -1,6 +1,7 @@
 
 body{font-family: 'Josefin Sans', sans-serif;}
 a{text-decoration: none !important;}
+header{font-size:18px;}
 .flash{background-color: gray;margin-top: 50px;opacity: 0.9;font-size: 40px;}
 .add{background-color: #313131;font-size: 40px;margin-top: 60px;}
 .menu_item{background-color: #f1f1f1;margin-bottom: 15px;}
@@ -19,15 +20,16 @@ a{text-decoration: none !important;}
 .res_img{text-align: center; background-color: orange;margin-bottom: 2px;}
 #main_nav{margin-top: 50px;}
 .res_name{font-size: 60px;background-color: #fff0e1;padding: 60px;margin-bottom: 2px;}
-@media only screen and (max-width: 768px) {
-  .res_name{font-size: 18px;padding:30px;}
-  .main_header{font-size:30px;margin-top: 5px;}
-  .flash{font-size: 18px;}
-  .res_img_p{display: none;}
-}
 .signature{height: 666px;background-color:indigo;color:#f1f1f1;position: relative;}
 .credits{position: absolute;bottom: 0;left: 0;margin-left: 20px;}
 .links{color:#ffffff;font-size: 60px;margin-left: 30px;}
 .fb:hover{color:#3b5998;}
 .lin:hover{color:#007bb6;}
 .git:hover{color:#0d2636;}
+@media only screen and (max-width: 768px) {
+  .res_name{font-size: 18px;padding:30px;}
+  .main_header{font-size:30px;margin-top: 6px;}
+  .flash{font-size: 18px;}
+  .res_img_p{display: none;}
+  .signature{height:350px;}
+}
