@@ -53,7 +53,7 @@
 
   <a href="{{url_for('menu',res_id=res.id)}}">
 <span class="glow">{{res.name}}</span></a>
-{%if loggedin == 1%}
+{%if loggedin == 1 and res.user_id == c_user%}
 <a class="edit_icon" href="{{url_for('editRestaurant',res_id=res.id)}}"><span><i class="fa fa-gear"></i></span></a>
 <a class="delete_icon" href="{{url_for('deleteRestaurant',res_id=res.id)}}"><span><i class="fa fa-trash"></i></span></a>
 {%endif%}

@@ -89,6 +89,10 @@ def gconnect():
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
+    flag = q.user_check(data['email'])
+    if not flag:
+        q.user_add(login_session['username'],login_session['email'],login_session['picture'])
+    login_session['user_id'] = q.user_data(login_session['email']).id
     output = ''
     output += '<h1>Welcome, '
     output += login_session['username']
@@ -138,24 +142,34 @@ def names():
         username = login_session['username']
         url = "#"
         flag=1
+        c_user = login_session['user_id']
     else:
         username = "Log In"
         url = url_for('showLogin')
-    return render_template('main_page.html',res_data=res_data,username=username,loggedin=flag,url=url)
+    if(flag==1):
+        return render_template('main_page.html',c_user=c_user,res_data=res_data,username=username,loggedin=flag,url=url)
+    else:
+        return render_template('main_page.html',res_data=res_data,username=username,loggedin=flag,url=url)
+
 @app.route('/restaurants/new',methods=['GET','POST'])
 def addRestaurant():
     if 'username' not in login_session:
         return redirect('/login')
     if(request.method=='POST'):
         name = request.form['name']
-        q.res_add(name)
+        res_owner = login_session['user_id']
+        q.res_add(name,res_owner)
         flash("{} added to database successfully!".format(name))
         return redirect(url_for('names'))
     return render_template('add_res.html')
+
 @app.route('/restaurants/<int:res_id>/edit',methods=['GET','POST'])
 def editRestaurant(res_id):
     if 'username' not in login_session:
         return redirect('/login')
+    res_owner = q.res_owner_id(res_id)
+    if(res_owner != login_session['user_id']):
+            return "Access Denied"
     res_name = q.res_name(res_id)
     if(request.method=="POST"):
         new_name = request.form['res_new_name']
@@ -174,12 +188,16 @@ def editRestaurant(res_id):
 def deleteRestaurant(res_id):
     if 'username' not in login_session:
         return redirect('/login')
+    res_owner = q.res_owner_id(res_id)
+    if(res_owner != login_session['user_id']):
+            return "Access Denied"
     res_name = q.res_name(res_id)
     if(request.method=="POST"):
         q.res_delete(res_id)
         flash("{} removed successfully".format(res_name))
         return redirect(url_for('names'))
     return render_template('delete_res.html',res_id=res_id,res_name=res_name)
+
 @app.route('/restaurants/<int:res_id>/menu/')
 def menu(res_id):
     menu_data = q.item_data(res_id)
@@ -187,6 +205,7 @@ def menu(res_id):
     if('username' in login_session):
         loggedIN = 1
     r_id = res_id
+    c_user = login_session['user_id']
     menu_entree = q.item_by_course(r_id,"Entree")
     menu_dessert = q.item_by_course(r_id,"Dessert")
     menu_appetizer =  q.item_by_course(r_id,"Appetizer")
@@ -207,7 +226,7 @@ def menu(res_id):
     print(appetizer_flag)
     flag = menu_data.first()
     res_name = q.res_name(res_id)
-    return render_template('menu.html',entree=menu_entree,dessert=menu_dessert,appetizer=menu_appetizer,beverage=menu_beverage,app_flag=appetizer_flag,bev_flag=beverage_flag,ent_flag=entree_flag,des_flag=dessert_flag,res_name=res_name,r_id=res_id,flag=flag,loggedIN = loggedIN)
+    return render_template('menu.html',c_user=c_user,entree=menu_entree,dessert=menu_dessert,appetizer=menu_appetizer,beverage=menu_beverage,app_flag=appetizer_flag,bev_flag=beverage_flag,ent_flag=entree_flag,des_flag=dessert_flag,res_name=res_name,r_id=res_id,flag=flag,loggedIN = loggedIN)
 
 @app.route('/restaurants/<int:res_id>/menu/create/',methods=['GET','POST'])
 def newMenuItem(res_id):
@@ -218,11 +237,12 @@ def newMenuItem(res_id):
         item_price = request.form['price']
         item_desc = request.form['desc']
         item_course = request.form['course']
+        item_owner = login_session['user_id']
         if(item_price == ''):
             item_price = 'Empty'
         if(item_desc == ''):
             item_desc = 'Empty'
-        q.item_add(res_id,item_name,item_price,item_desc,item_course)
+        q.item_add(res_id,item_name,item_price,item_desc,item_course,item_owner)
         flash('{} created!'.format(item_name))
         return redirect(url_for('menu',res_id=res_id))
 
@@ -233,6 +253,9 @@ def newMenuItem(res_id):
 def editMenuItem(res_id,menu_id):
     if 'username' not in login_session:
         return redirect('/login')
+    item_owner = q.item_owner_id(res_id,menu_id)
+    if(item_owner != login_session['user_id']):
+            return "Access Denied"
     if(request.method == "POST"):
         item_name = request.form['name']
         item_price = request.form['price']
@@ -263,6 +286,10 @@ def editMenuItem(res_id,menu_id):
 def deleteMenuItem(res_id,menu_id):
     if 'username' not in login_session:
         return redirect('/login')
+    item_owner = q.item_owner_id(res_id,menu_id)
+    if(item_owner != login_session['user_id']):
+        return "Access Denied"
+
     if(request.method=="POST"):
         item_name = q.item_data_p(res_id,menu_id).name
         q.item_delete(res_id,menu_id)
