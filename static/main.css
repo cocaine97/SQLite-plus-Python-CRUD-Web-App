@@ -1,13 +1,15 @@
 
 body{font-family: 'Josefin Sans', sans-serif;}
 a{text-decoration: none !important;}
-.flash{background-color: gray;margin-top: 50px;opacity: 0.5;font-size: 40px;}
+.flash{background-color: gray;margin-top: 50px;opacity: 0.9;font-size: 40px;}
 .add{background-color: #313131;font-size: 40px;margin-top: 60px;}
 .menu_item{background-color: #f1f1f1;margin-bottom: 15px;}
 .main_header{text-align: center;background-color: #212121;color:#f0f0f0;font-size: 60px;}
 .main_header_left{background-color: #f0f0f0;color:#0f0f0f;text-align: center;font-family: Helvetica;}
 .main_header_right{background-color: #f0f0f0;color:#0f0f0f;}
 .full{padding:0px;}
+.course{text-align: center;color:white;background-color:#2e2d88;font-size: 40px;margin-top: 20px;margin-bottom:20px;}
+.chaching{color:darkgreen;}
 .glow{color:#212121;}
 .edit_icon{float:right;color:#212121;margin-right: 10px;}
 .edit_icon:hover{color:darkblue;}
@@ -26,4 +28,6 @@ a{text-decoration: none !important;}
 .signature{height: 666px;background-color:indigo;color:#f1f1f1;position: relative;}
 .credits{position: absolute;bottom: 0;left: 0;margin-left: 20px;}
 .links{color:#ffffff;font-size: 60px;margin-left: 30px;}
-.links:hover{color:gold;}
+.fb:hover{color:#3b5998;}
+.lin:hover{color:#007bb6;}
+.git:hover{color:#0d2636;}

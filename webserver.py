@@ -123,9 +123,8 @@ def gdisconnect():
         del login_session['username']
         del login_session['email']
         del login_session['picture']
-        response = make_response(json.dumps('Successfully disconnected.'), 200)
-        response.headers['Content-Type'] = 'application/json'
-        return response
+        flash("Successfully logged out!")
+        return redirect(url_for('names'))
     else:
         response = make_response(json.dumps('Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
@@ -183,12 +182,32 @@ def deleteRestaurant(res_id):
     return render_template('delete_res.html',res_id=res_id,res_name=res_name)
 @app.route('/restaurants/<int:res_id>/menu/')
 def menu(res_id):
+    menu_data = q.item_data(res_id)
+    loggedIN = 0
+    if('username' in login_session):
+        loggedIN = 1
     r_id = res_id
-    menu_data = q.item_data(r_id)
+    menu_entree = q.item_by_course(r_id,"Entree")
+    menu_dessert = q.item_by_course(r_id,"Dessert")
+    menu_appetizer =  q.item_by_course(r_id,"Appetizer")
+    menu_beverage = q.item_by_course(r_id,"Beverage")
+    print(menu_entree)
+    entree_flag=0
+    dessert_flag=0
+    appetizer_flag=0
+    beverage_flag = 0
+    if(menu_entree.first() != None):
+        entree_flag = 1
+    if(menu_dessert.first() != None):
+        dessert_flag = 1
+    if(menu_beverage.first() != None):
+        beverage_flag = 1
+    if(menu_appetizer.first() != None):
+        appetizer_flag = 1
+    print(appetizer_flag)
     flag = menu_data.first()
-    res_name = q.res_name(r_id)
-    #print(menu_data)
-    return render_template('menu.html',menu_data=menu_data,res_name=res_name,r_id=r_id,flag=flag)
+    res_name = q.res_name(res_id)
+    return render_template('menu.html',entree=menu_entree,dessert=menu_dessert,appetizer=menu_appetizer,beverage=menu_beverage,app_flag=appetizer_flag,bev_flag=beverage_flag,ent_flag=entree_flag,des_flag=dessert_flag,res_name=res_name,r_id=res_id,flag=flag,loggedIN = loggedIN)
 
 @app.route('/restaurants/<int:res_id>/menu/create/',methods=['GET','POST'])
 def newMenuItem(res_id):
@@ -198,11 +217,12 @@ def newMenuItem(res_id):
         item_name = request.form['name']
         item_price = request.form['price']
         item_desc = request.form['desc']
+        item_course = request.form['course']
         if(item_price == ''):
             item_price = 'Empty'
         if(item_desc == ''):
             item_desc = 'Empty'
-        q.item_add(res_id,item_name,item_price,item_desc)
+        q.item_add(res_id,item_name,item_price,item_desc,item_course)
         flash('{} created!'.format(item_name))
         return redirect(url_for('menu',res_id=res_id))
 
@@ -217,6 +237,7 @@ def editMenuItem(res_id,menu_id):
         item_name = request.form['name']
         item_price = request.form['price']
         item_desc = request.form['desc']
+        item_course = request.form['course']
         if(item_name== '' or item_price== '' or item_desc == ''):
             item_old = q.item_data_p(res_id,menu_id)
             if(item_name==''):

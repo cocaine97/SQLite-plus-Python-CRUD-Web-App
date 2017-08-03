@@ -18,9 +18,6 @@
         <header class="navbar-header pull-right">
            <a href="#" class="navbar-brand">{{res_name}}</a>
         </header>
-
-
-
       </div>
     </div>
 
@@ -41,21 +38,96 @@
 
 <div class="row">
   <div class="col-md-12 add">
+    {%if loggedIN==1%}
     <a href="{{url_for('newMenuItem',res_id=r_id)}}">+ Add a dish</a>
+    {%endif%}
   </div>
 </div>
+
 {%if(flag != None)%}
-{% for menu in menu_data %}
+{%if(app_flag == 1)%}
+<div class="row">
+<div class="col-md-12 course">
+<span>Appetizers</span>
+</div>
+</div>
+{% for x in appetizer %}
 <div class="row">
   <div class="col-md-12 menu_item">
-    <h3>{{menu.name}}</h3>
-    <h3>{{menu.price}}</h3>
-    <h3>{{menu.description}}</h3>
-    <h3><a href={{url_for('editMenuItem',res_id=r_id,menu_id=menu.id)}}>Edit</a>&nbsp;<a href={{url_for('deleteMenuItem',res_id=r_id,menu_id=menu.id)}}>Delete</a></h3>
+    <h3>{{x.name}}</h3>
+    <h3>{{x.description}}</h3>
+    <h3 class="chaching">{{x.price}}</h3>
+    {%if loggedIN==1%}
+    <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
+    {%endif%}
   </div>
 </div>
 {%endfor%}
+{%endif%}
+
+{%if(bev_flag == 1)%}
+<div class="row">
+<div class="col-md-12 course">
+<span>Beverages</span>
+</div>
+</div>
+{% for x in beverage %}
+<div class="row">
+  <div class="col-md-12 menu_item">
+    <h3>{{x.name}}</h3>
+    <h3>{{x.description}}</h3>
+    <h3 class="chaching">{{x.price}}</h3>
+    {%if loggedIN==1%}
+    <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
+    {%endif%}
+  </div>
+</div>
+{%endfor%}
+{%endif%}
+
+{%if(ent_flag == 1)%}
+<div class="row">
+<div class="col-md-12 course">
+<span>Entree</span>
+</div>
+</div>
+{% for x in entree %}
+<div class="row">
+  <div class="col-md-12 menu_item">
+    <h3>{{x.name}}</h3>
+    <h3>{{x.description}}</h3>
+    <h3 class="chaching">{{x.price}}</h3>
+    {%if loggedIN==1%}
+    <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
+    {%endif%}
+  </div>
+</div>
+{%endfor%}
+{%endif%}
+
+{%if(des_flag == 1)%}
+<div class="row">
+<div class="col-md-12 course">
+<span>Dessert</span>
+</div>
+</div>
+{% for x in dessert %}
+<div class="row">
+  <div class="col-md-12 menu_item">
+    <h3>{{x.name}}</h3>
+    <h3>{{x.description}}</h3>
+    <h3 class="chaching">{{x.price}}</h3>
+    {%if loggedIN==1%}
+    <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
+    {%endif%}
+  </div>
+</div>
+{%endfor%}
+{%endif%}
+
+
 {%else%}
+
 <div class="row">
   <div class="col-md-12 menu_item">
     <h3>No Data Found.</h3>

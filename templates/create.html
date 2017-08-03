@@ -13,6 +13,7 @@
         <p>Name <input type="text" name="name" placeholder="Name of the dish" required ></p>
         <p>Price <input type="text" name="price" value="$"></p>
         <p>Description <input type="text" name="desc" placeholder="Describe the dish"></p>
+        <p>Course <select name="course"><option value="Entree">Entree</option><option value="Beverage">Beverage</option><option value="Dessert">Dessert</option><option value="Appetizer">Appetizer</option></select></p>
         <p><input type="submit" value="Submit"> <a href="{{url_for('menu',res_id=res_id)}}">Kancel</a></p>
       </fieldset>
     </form>
