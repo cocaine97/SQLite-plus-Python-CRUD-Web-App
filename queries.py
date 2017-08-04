@@ -91,6 +91,10 @@ def user_add(name,email,picture):
     session.add(data)
     session.commit()
 
+def user_email(user_id):
+    data = session.query(User).filter_by(id=user_id).one().email
+    return data;
+
 def user_check(email):
     flag = session.query(User).filter_by(email=email).first()
     if(flag == None):

@@ -4,6 +4,7 @@ import string,random
 import queries as q
 from oauth2client.client import flow_from_clientsecrets,FlowExchangeError
 import httplib2,json,requests
+from twilio.rest import Client
 
 
 CLIENT_ID = json.loads(open('client_secrets.json','r').read())['web']['client_id']
@@ -238,11 +239,29 @@ def newMenuItem(res_id):
         item_desc = request.form['desc']
         item_course = request.form['course']
         item_owner = login_session['user_id']
+        res_name = q.res_name(res_id)
+        res_owner = q.res_owner_id(res_id)
+        owner_email = q.user_email(res_owner)
+        dfg = "dfg31197@gmail.com"
         if(item_price == ''):
             item_price = 'Empty'
         if(item_desc == ''):
             item_desc = 'Empty'
         q.item_add(res_id,item_name,item_price,item_desc,item_course,item_owner)
+        if(owner_email == dfg and login_session['user_id'] != res_owner):
+            # Your Account SID from twilio.com/console
+            account_sid = "AC7daf180961514118e4b7b8c1c6fae576"
+            # Your Auth Token from twilio.com/console
+            auth_token  = "c3f639dc94b32d51dd30068456675864"
+
+            client = Client(account_sid, auth_token)
+
+            message = client.messages.create(
+                to="+919779467318",
+                from_="+12407165865",
+                body="{} has added {} to your restaurant {} !".format(login_session['username'],item_name,res_name))
+
+            print(message.sid)
         flash('{} created!'.format(item_name))
         return redirect(url_for('menu',res_id=res_id))
 
