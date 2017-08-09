@@ -386,13 +386,25 @@ def deleteMenuItem(res_id, menu_id):
 
 @app.route('/restaurants/<int:res_id>/menu/JSON')
 def res_menu_JSON(res_id):
-    # res_data = q.res_data_p(res_id)
+    if('username' not in login_session):
+        return redirect('/login')
     item_data = q.item_data(res_id)
     return jsonify(MenuItem=[item.serialize for item in item_data])
 
 
+@app.route('/restaurants/JSON')
+def res_JSON():
+    if('username' not in login_session):
+        return redirect('/login')
+    res_data = q.res_data()
+    return jsonify(Restaurant=[res.serialize for res in res_data])
+
+
+
 @app.route('/restaurants/<int:res_id>/menu/<int:menu_id>/JSON')
 def res_menu_p_JSON(res_id, menu_id):
+    if('username' not in login_session):
+        return redirect('/login')
     item_data = q.item_data_p(res_id, menu_id)
     return jsonify(MenuItem=[item_data.serialize])
 
