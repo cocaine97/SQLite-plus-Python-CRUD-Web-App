@@ -205,8 +205,12 @@ def menu(res_id):
     loggedIN = 0
     if('username' in login_session):
         loggedIN = 1
+        c_user = login_session['user_id']
     r_id = res_id
-    c_user = login_session['user_id']
+    owner_flag=0
+    res_owner = q.res_owner_id(res_id)
+    if(res_owner== login_session['user_id']):
+        owner_flag=1
     menu_entree = q.item_by_course(r_id,"Entree")
     menu_dessert = q.item_by_course(r_id,"Dessert")
     menu_appetizer =  q.item_by_course(r_id,"Appetizer")
@@ -227,8 +231,10 @@ def menu(res_id):
     print(appetizer_flag)
     flag = menu_data.first()
     res_name = q.res_name(res_id)
-    return render_template('menu.html',c_user=c_user,entree=menu_entree,dessert=menu_dessert,appetizer=menu_appetizer,beverage=menu_beverage,app_flag=appetizer_flag,bev_flag=beverage_flag,ent_flag=entree_flag,des_flag=dessert_flag,res_name=res_name,r_id=res_id,flag=flag,loggedIN = loggedIN)
-
+    if(loggedIN):
+        return render_template('menu.html',owner_flag=owner_flag,c_user=c_user,entree=menu_entree,dessert=menu_dessert,appetizer=menu_appetizer,beverage=menu_beverage,app_flag=appetizer_flag,bev_flag=beverage_flag,ent_flag=entree_flag,des_flag=dessert_flag,res_name=res_name,r_id=res_id,flag=flag,loggedIN = loggedIN)
+    else:
+        return render_template('menu.html',entree=menu_entree,dessert=menu_dessert,appetizer=menu_appetizer,beverage=menu_beverage,app_flag=appetizer_flag,bev_flag=beverage_flag,ent_flag=entree_flag,des_flag=dessert_flag,res_name=res_name,r_id=res_id,flag=flag,loggedIN = loggedIN)
 @app.route('/restaurants/<int:res_id>/menu/create/',methods=['GET','POST'])
 def newMenuItem(res_id):
     if 'username' not in login_session:
@@ -273,8 +279,9 @@ def editMenuItem(res_id,menu_id):
     if 'username' not in login_session:
         return redirect('/login')
     item_owner = q.item_owner_id(res_id,menu_id)
-    if(item_owner != login_session['user_id']):
-            return "Access Denied"
+    res_owner = q.res_owner_id(res_id)
+    if(res_owner != login_session['user_id'] and item_owner != login_session['user_id']):
+        return "Access Denied"
     if(request.method == "POST"):
         item_name = request.form['name']
         item_price = request.form['price']

@@ -57,7 +57,7 @@
     <h3>{{x.name}}</h3>
     <h3>{{x.description}}</h3>
     <h3 class="chaching">{{x.price}}</h3>
-    {%if loggedIN==1 and x.user_id == c_user%}
+    {%if ((loggedIN==1 and x.user_id == c_user) or (owner_flag==1))%}
     <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
     {%endif%}
   </div>
@@ -77,7 +77,7 @@
     <h3>{{x.name}}</h3>
     <h3>{{x.description}}</h3>
     <h3 class="chaching">{{x.price}}</h3>
-    {%if loggedIN==1 and x.user_id == c_user%}
+    {%if ((loggedIN==1 and x.user_id == c_user) or (owner_flag==1))%}
     <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
     {%endif%}
   </div>
@@ -97,7 +97,7 @@
     <h3>{{x.name}}</h3>
     <h3>{{x.description}}</h3>
     <h3 class="chaching">{{x.price}}</h3>
-    {%if loggedIN==1 and x.user_id == c_user%}
+    {%if ((loggedIN==1 and x.user_id == c_user) or (owner_flag==1))%}
     <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
     {%endif%}
   </div>
@@ -117,7 +117,7 @@
     <h3>{{x.name}}</h3>
     <h3>{{x.description}}</h3>
     <h3 class="chaching">{{x.price}}</h3>
-    {%if loggedIN==1 and x.user_id == c_user%}
+    {%if ((loggedIN==1 and x.user_id == c_user) or (owner_flag==1))%}
     <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
     {%endif%}
   </div>
