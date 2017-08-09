@@ -20,7 +20,7 @@ header{font-size:18px;}
 .res_img{text-align: center; background-color: orange;margin-bottom: 2px;}
 #main_nav{margin-top: 50px;}
 .res_name{font-size: 60px;background-color: #fff0e1;padding: 60px;margin-bottom: 2px;}
-.signature{height: 666px;background-color:indigo;color:#f1f1f1;position: relative;}
+.signature{height: 666px;background-color:#3a2d72;color:#f1f1f1;position: relative;}
 .credits{position: absolute;bottom: 0;left: 0;margin-left: 20px;}
 .links{color:#ffffff;font-size: 60px;margin-left: 30px;}
 .fb:hover{color:#3b5998;}
