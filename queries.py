@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base,Restaurant,MenuItem,User
+import bleach
 
 
 engine = create_engine('sqlite:///restaurantmenu.db')
@@ -26,6 +27,7 @@ def res_delete(x):
     session.commit()
 
 def res_edit_name(x,new_name):
+    new_name = bleach.clean(new_name)
     data = session.query(Restaurant).filter_by(id=x).one()
     data.name = str(new_name)
     session.commit()
@@ -41,6 +43,7 @@ def res_add(x,owner):
     session.commit()
 
 def res_edit(id,naam):
+    naam = bleach.clean(naam)
     temp = session.query(Restaurant).filter_by(id=id).one()
     temp.name = naam
     session.commit()
@@ -63,6 +66,9 @@ def item_data_p(r,m):
     return data
 
 def item_add(res_id,item_name,item_price,item_desc,item_course,owner):
+    item_name = bleach.clean(item_name)
+    item_price = bleach.clean(item_price)
+    item_desc = bleach.clean(item_desc)
     data = MenuItem(restaurant_id=res_id,name=item_name,price=item_price,description=item_desc,course=item_course,user_id=owner)
     session.add(data)
     session.commit()
@@ -70,9 +76,9 @@ def item_add(res_id,item_name,item_price,item_desc,item_course,owner):
 
 def item_edit(res_id,item_id,item_name,item_price,item_desc,item_course):
     data = session.query(MenuItem).filter_by(restaurant_id = res_id,id=item_id).one()
-    data.name = item_name
-    data.price = item_price
-    data.description = item_desc
+    data.name = bleach.clean(item_name)
+    data.price = bleach.clean(item_price)
+    data.description = bleach.clean(item_desc)
     data.course = item_course
     session.commit()
 

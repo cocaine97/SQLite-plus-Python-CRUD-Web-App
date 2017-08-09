@@ -287,20 +287,22 @@ def editMenuItem(res_id,menu_id):
         item_price = request.form['price']
         item_desc = request.form['desc']
         item_course = request.form['course']
+        item_old = q.item_data_p(res_id,menu_id)
         if(item_name== '' or item_price== '' or item_desc == ''):
-            item_old = q.item_data_p(res_id,menu_id)
             if(item_name==''):
                 item_name = item_old.name
             if(item_price == ''):
                 item_price = item_old.price
             if(item_desc==''):
                 item_desc = item_old.description
-            if(item_name == item_old.name and item_price == item_old.price and item_desc == item_old.description):
+            if(item_name == item_old.name and item_price == item_old.price and item_desc == item_old.description and item_old.course == item_course ):
                 flash_changes = "No changes made to {} .".format(item_name)
             else:
-                flash_changes = "Changes saved successfully!"
+                flash_changes = "Changes saved successfully"
+        else:
+            flash_changes = "Changes saved successfully!"
 
-        q.item_edit(res_id,menu_id,item_name,item_price,item_desc)
+        q.item_edit(res_id,menu_id,item_name,item_price,item_desc,item_course)
         flash(flash_changes)
         return redirect(url_for('menu',res_id=res_id))
 
