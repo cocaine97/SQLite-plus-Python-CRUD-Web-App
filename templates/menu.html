@@ -1,139 +1,128 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static',filename='main.css')}}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="{{url_for('static',filename='jquery.js')}}" charset="utf-8"></script>
-    <link async defer href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
-    <title>Menu</title>
-  </head>
-  <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <header class="navbar-header pull-left">
-          <a class="navbar-brand" href="{{url_for('names')}}">Home</a>
-        </header>
-        <header class="navbar-header pull-right">
-           <a href="#" class="navbar-brand">{{res_name}}</a>
-        </header>
+   <head>
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+      <link rel="stylesheet" href="{{url_for('static',filename='main.css')}}">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="{{url_for('static',filename='jquery.js')}}" charset="utf-8"></script>
+      <link async defer href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+      <title>Menu</title>
+   </head>
+   <body>
+      <div class="navbar navbar-inverse navbar-fixed-top">
+         <div class="container-fluid">
+            <header class="navbar-header pull-left">
+               <a class="navbar-brand" href="{{url_for('names')}}">Home</a>
+            </header>
+            <header class="navbar-header pull-right">
+               <a href="#" class="navbar-brand">{{res_name}}</a>
+            </header>
+         </div>
       </div>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 flash navbar-fixed-bottom">
-          {%with messages = get_flashed_messages()%}
-          {% if messages%}
-
-            {%for message in messages%}
-            <span>{{message}}</span>
-            {%endfor%}
+      <div class="container">
+         <div class="row">
+            <div class="col-md-12 flash navbar-fixed-bottom">
+               {%with messages = get_flashed_messages()%}
+               {% if messages%}
+               {%for message in messages%}
+               <span>{{message}}</span>
+               {%endfor%}
+               {%endif%}
+               {%endwith%}
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-md-12 add">
+               {%if loggedIN==1%}
+               <a href="{{url_for('newMenuItem',res_id=r_id)}}">+ Add a dish</a>
+               {%endif%}
+            </div>
+         </div>
+         {%if(flag != None)%}
+         {%if(app_flag == 1)%}
+         <div class="row">
+            <div class="col-md-12 course">
+               <span>Appetizers</span>
+            </div>
+         </div>
+         {% for x in appetizer %}
+         <div class="row">
+            <div class="col-md-12 menu_item">
+               <h3>{{x.name}}</h3>
+               <h3>{{x.description}}</h3>
+               <h3 class="chaching">{{x.price}}</h3>
+               {%if ((loggedIN==1 and x.user_id == c_user) or (owner_flag==1))%}
+               <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
+               {%endif%}
+            </div>
+         </div>
+         {%endfor%}
+         {%endif%}
+         {%if(bev_flag == 1)%}
+         <div class="row">
+            <div class="col-md-12 course">
+               <span>Beverages</span>
+            </div>
+         </div>
+         {% for x in beverage %}
+         <div class="row">
+            <div class="col-md-12 menu_item">
+               <h3>{{x.name}}</h3>
+               <h3>{{x.description}}</h3>
+               <h3 class="chaching">{{x.price}}</h3>
+               {%if ((loggedIN==1 and x.user_id == c_user) or (owner_flag==1))%}
+               <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
+               {%endif%}
+            </div>
+         </div>
+         {%endfor%}
+         {%endif%}
+         {%if(ent_flag == 1)%}
+         <div class="row">
+            <div class="col-md-12 course">
+               <span>Entree</span>
+            </div>
+         </div>
+         {% for x in entree %}
+         <div class="row">
+            <div class="col-md-12 menu_item">
+               <h3>{{x.name}}</h3>
+               <h3>{{x.description}}</h3>
+               <h3 class="chaching">{{x.price}}</h3>
+               {%if ((loggedIN==1 and x.user_id == c_user) or (owner_flag==1))%}
+               <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
+               {%endif%}
+            </div>
+         </div>
+         {%endfor%}
+         {%endif%}
+         {%if(des_flag == 1)%}
+         <div class="row">
+            <div class="col-md-12 course">
+               <span>Dessert</span>
+            </div>
+         </div>
+         {% for x in dessert %}
+         <div class="row">
+            <div class="col-md-12 menu_item">
+               <h3>{{x.name}}</h3>
+               <h3>{{x.description}}</h3>
+               <h3 class="chaching">{{x.price}}</h3>
+               {%if ((loggedIN==1 and x.user_id == c_user) or (owner_flag==1))%}
+               <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
+               {%endif%}
+            </div>
+         </div>
+         {%endfor%}
+         {%endif%}
+         {%else%}
+         <div class="row">
+            <div class="col-md-12 menu_item">
+               <h3>No Data Found.</h3>
+            </div>
             {%endif%}
-          {%endwith%}
-        </div>
-
+         </div>
       </div>
-
-<div class="row">
-  <div class="col-md-12 add">
-    {%if loggedIN==1%}
-    <a href="{{url_for('newMenuItem',res_id=r_id)}}">+ Add a dish</a>
-    {%endif%}
-  </div>
-</div>
-
-{%if(flag != None)%}
-{%if(app_flag == 1)%}
-<div class="row">
-<div class="col-md-12 course">
-<span>Appetizers</span>
-</div>
-</div>
-{% for x in appetizer %}
-<div class="row">
-  <div class="col-md-12 menu_item">
-    <h3>{{x.name}}</h3>
-    <h3>{{x.description}}</h3>
-    <h3 class="chaching">{{x.price}}</h3>
-    {%if ((loggedIN==1 and x.user_id == c_user) or (owner_flag==1))%}
-    <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
-    {%endif%}
-  </div>
-</div>
-{%endfor%}
-{%endif%}
-
-{%if(bev_flag == 1)%}
-<div class="row">
-<div class="col-md-12 course">
-<span>Beverages</span>
-</div>
-</div>
-{% for x in beverage %}
-<div class="row">
-  <div class="col-md-12 menu_item">
-    <h3>{{x.name}}</h3>
-    <h3>{{x.description}}</h3>
-    <h3 class="chaching">{{x.price}}</h3>
-    {%if ((loggedIN==1 and x.user_id == c_user) or (owner_flag==1))%}
-    <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
-    {%endif%}
-  </div>
-</div>
-{%endfor%}
-{%endif%}
-
-{%if(ent_flag == 1)%}
-<div class="row">
-<div class="col-md-12 course">
-<span>Entree</span>
-</div>
-</div>
-{% for x in entree %}
-<div class="row">
-  <div class="col-md-12 menu_item">
-    <h3>{{x.name}}</h3>
-    <h3>{{x.description}}</h3>
-    <h3 class="chaching">{{x.price}}</h3>
-    {%if ((loggedIN==1 and x.user_id == c_user) or (owner_flag==1))%}
-    <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
-    {%endif%}
-  </div>
-</div>
-{%endfor%}
-{%endif%}
-
-{%if(des_flag == 1)%}
-<div class="row">
-<div class="col-md-12 course">
-<span>Dessert</span>
-</div>
-</div>
-{% for x in dessert %}
-<div class="row">
-  <div class="col-md-12 menu_item">
-    <h3>{{x.name}}</h3>
-    <h3>{{x.description}}</h3>
-    <h3 class="chaching">{{x.price}}</h3>
-    {%if ((loggedIN==1 and x.user_id == c_user) or (owner_flag==1))%}
-    <h3><a href="{{url_for('editMenuItem',res_id=r_id,menu_id=x.id)}}">Edit</a>&nbsp;<a href="{{url_for('deleteMenuItem',res_id=r_id,menu_id=x.id)}}">Delete</a></h3>
-    {%endif%}
-  </div>
-</div>
-{%endfor%}
-{%endif%}
-
-
-{%else%}
-
-<div class="row">
-  <div class="col-md-12 menu_item">
-    <h3>No Data Found.</h3>
-  </div>
-  {%endif%}
-</div>
-    </div>
-  </body>
+   </body>
 </html>

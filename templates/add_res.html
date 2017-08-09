@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static',filename='main.css')}}">
-    <meta charset="utf-8">
-    <title>Add a Restaurant</title>
-  </head>
-  <body>
-    <div class="container">
-    <form  action="{{url_for('addRestaurant')}}" method="post">
-      <div class="row">
-        <div class="col-md-12">
-          <h3>Enter name of your restaurant: <input type="text" name="name" value="" required><input type="submit" value="Create"> <a href="{{url_for('names')}}">Kancel</a></h3>
-        </div>
+   <head>
+      <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+      <link rel="stylesheet" href="{{url_for('static',filename='main.css')}}">
+      <meta charset="utf-8">
+      <title>Add a Restaurant</title>
+   </head>
+   <body>
+      <div class="container">
+         <form  action="{{url_for('addRestaurant')}}" method="post">
+            <div class="row">
+               <div class="col-md-12">
+                  <h3>Enter name of your restaurant: <input type="text" name="name" value="" required><input type="submit" value="Create"> <a href="{{url_for('names')}}">Kancel</a></h3>
+               </div>
+            </div>
+         </form>
       </div>
-    </form>
-    </div>
-  </body>
+   </body>
 </html>

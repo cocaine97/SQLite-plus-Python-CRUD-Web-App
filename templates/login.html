@@ -1,54 +1,51 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="//apis.google.com/js/platform.js?onload=start"> </script>
+   <head>
+      <meta charset="utf-8">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="//apis.google.com/js/platform.js?onload=start"> </script>
+      <title>Login</title>
+   </head>
+   <body>
+      <div id="signInButton">
+         <span
+            class="g-signin"
+            data-scope="openid email"
+            data-clientid="85605302210-96f34e33ku4soou29gbsbartple5k87n.apps.googleusercontent.com"
+            data-redirecturi="postmessage"
+            data-accesstype="offline"
+            data-cookiepolicy="single_host_origin"
+            data-callback="signInCB"
+            data-approvalprompt="force"></span>
+      </div>
+      <div id="result">
+      </div>
+      <script type="text/javascript">
+         function signInCB(authRes){
+           if(authRes['code'])
+           {
+             $("#signInButton").attr("style","display:none");
 
-    <title>Login</title>
-  </head>
-  <body>
-    <div id="signInButton">
-      <span
-      class="g-signin"
-      data-scope="openid email"
-      data-clientid="85605302210-96f34e33ku4soou29gbsbartple5k87n.apps.googleusercontent.com"
-      data-redirecturi="postmessage"
-      data-accesstype="offline"
-      data-cookiepolicy="single_host_origin"
-      data-callback="signInCB"
-      data-approvalprompt="force"></span>
-    </div>
+             $.ajax({
+               type:"POST",
+               url:"/gconnect?state={{STATE}}",
+               processData:false,
+               contentType: 'application/octet-stream;charset=utf-8',
+               data:authRes['code'],
+               success: (res)=>{
+                 if(res){
+                   $('#result').html("<h3>Login successful! Redirecting</h3><h3>"+res+"</h3><h3>Redirecting . . .</h3>");
+                   setTimeout(()=>{
+                     window.location.href = "/restaurants";
+                   },4000);
+                 }else if(authRes['error']){
+                   $('#result').html("<h3>Sorry. An error occured. Error :"+authRes['error']+"</h3>")}
+                   else{$("#result").html("<h3>Check yer damn connection ye cunt.</h3>");}
+               }
+             });
+           }
+         }
 
-    <div id="result">
-
-    </div>
-    <script type="text/javascript">
-    function signInCB(authRes){
-      if(authRes['code'])
-      {
-        $("#signInButton").attr("style","display:none");
-
-        $.ajax({
-          type:"POST",
-          url:"/gconnect?state={{STATE}}",
-          processData:false,
-          contentType: 'application/octet-stream;charset=utf-8',
-          data:authRes['code'],
-          success: (res)=>{
-            if(res){
-              $('#result').html("<h3>Login successful! Redirecting</h3><h3>"+res+"</h3><h3>Redirecting . . .</h3>");
-              setTimeout(()=>{
-                window.location.href = "/restaurants";
-              },4000);
-            }else if(authRes['error']){
-              $('#result').html("<h3>Sorry. An error occured. Error :"+authRes['error']+"</h3>")}
-              else{$("#result").html("<h3>Check yer damn connection ye cunt.</h3>");}
-          }
-        });
-      }
-    }
-
-    </script>
-  </body>
+      </script>
+   </body>
 </html>

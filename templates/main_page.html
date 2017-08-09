@@ -1,88 +1,84 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Restaurants</title>
-    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static',filename='main.css')}}">
-    <link async defer href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="{{url_for('static',filename='jquery.js')}}" charset="utf-8"></script>
-  </head>
-  <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top col-xs-12">
-      <div class="container-fluid">
-        <div class="navbar-header pull-left">
-          {%if loggedin == 1%}
-          <a class="navbar-brand" href="{{url}}"><span class="glyphicon glyphicon-user"></span>{{username}}</a>
-          {%endif%}
-        </div>
-        <ul class="nav navbar-nav navbar-right">
-          {%if not loggedin%}
-          <li class="pull-right"><a href="{{url_for('showLogin')}}"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
-          {%endif%}
-          {%if loggedin==1%}
-          <li class="pull-right"><a href="{{url_for('gdisconnect')}}"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
-          <li class="pull-right"><a class ="navbar-brand" href="{{url_for('addRestaurant')}}">Create</a></li>
-          {%endif%}
-        </ul>
-      </div>
-    </nav>
-    <article class="container-fluid" id="main_nav">
-      <section class="row">
-        <section class='col-xs-12 main_header full'>
-          <span>Restaurants</span>
-        </section>
-      </section>
-
-<section class="row">
-      <section class="col-md-12 full">
-        <img src="../static/main_page.jpg" class="img-responsive" width="100%">
-      </section>
-</section>
-
-      {%if res_data%}
-
-    {%for res in res_data%}
-  <section class=" row">
-  <div class="col-sm-2 full res_img">
-  <p><img src="../static/res.png" alt="Placeholder for restaurants images" width="200px" height="196px" class="res_img_p"></p>
-  </div>
-  <div class="col-sm-10 full res_name">
-
-  <a href="{{url_for('menu',res_id=res.id)}}">
-<span class="glow">{{res.name}}</span></a>
-{%if loggedin == 1 and res.user_id == c_user%}
-<a class="edit_icon" href="{{url_for('editRestaurant',res_id=res.id)}}"><span><i class="fa fa-gear"></i></span></a>
-<a class="delete_icon" href="{{url_for('deleteRestaurant',res_id=res.id)}}"><span><i class="fa fa-trash"></i></span></a>
-{%endif%}
-  </div>
-  </section>
-  {%endfor%}
-<div class="row">
-<div class="col-md-12 flash navbar-fixed-bottom" >
-  {%endif%}
-  {%with messages=get_flashed_messages()%}
-  {%if messages%}
-  {%for message in messages%}
-  <span>{{message}}</span>
-  {%endfor%}
-  {%endif%}
-  {%endwith%}
-  </div>
-  </div>
-  <footer class="row">
-    <footer class="col-md-12 full signature">
-      <span class="credits">
-      <h1>Created by : Samarth</h1>
-      <h1><a href="https://github.com/dfg31197" target="_blank"><i class="fa fa-github links git"></i></a>
-      <a href="https://www.facebook.com/profile.php?id=100009174349251" target="_blank"><i class="fa fa-facebook links fb"></i></a>
-      <a href="https://www.linkedin.com/in/samarth-kamboj-0b7282144/" target="_blank"><i class="fa fa-linkedin-square links lin"></i></a>
-      </h1>
-      </span>
-    </footer>
-  </footer>
+   <head>
+      <meta charset="utf-8">
+      <title>Restaurants</title>
+      <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+      <link rel="stylesheet" href="{{url_for('static',filename='main.css')}}">
+      <link async defer href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="{{url_for('static',filename='jquery.js')}}" charset="utf-8"></script>
+   </head>
+   <body>
+      <nav class="navbar navbar-inverse navbar-fixed-top col-xs-12">
+         <div class="container-fluid">
+            <div class="navbar-header pull-left">
+               {%if loggedin == 1%}
+               <a class="navbar-brand" href="{{url}}"><span class="glyphicon glyphicon-user"></span>{{username}}</a>
+               {%endif%}
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+               {%if not loggedin%}
+               <li class="pull-right"><a href="{{url_for('showLogin')}}"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
+               {%endif%}
+               {%if loggedin==1%}
+               <li class="pull-right"><a href="{{url_for('gdisconnect')}}"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+               <li class="pull-right"><a class ="navbar-brand" href="{{url_for('addRestaurant')}}">Create</a></li>
+               {%endif%}
+            </ul>
+         </div>
+      </nav>
+      <article class="container-fluid" id="main_nav">
+         <section class="row">
+            <section class='col-xs-12 main_header full'>
+               <span>Restaurants</span>
+            </section>
+         </section>
+         <section class="row">
+            <section class="col-md-12 full">
+               <img src="../static/main_page.jpg" class="img-responsive" width="100%">
+            </section>
+         </section>
+         {%if res_data%}
+         {%for res in res_data%}
+         <section class=" row">
+            <div class="col-sm-2 full res_img">
+               <p><img src="../static/res.png" alt="Placeholder for restaurants images" width="200px" height="196px" class="res_img_p"></p>
+            </div>
+            <div class="col-sm-10 full res_name">
+               <a href="{{url_for('menu',res_id=res.id)}}">
+               <span class="glow">{{res.name}}</span></a>
+               {%if loggedin == 1 and res.user_id == c_user%}
+               <a class="edit_icon" href="{{url_for('editRestaurant',res_id=res.id)}}"><span><i class="fa fa-gear"></i></span></a>
+               <a class="delete_icon" href="{{url_for('deleteRestaurant',res_id=res.id)}}"><span><i class="fa fa-trash"></i></span></a>
+               {%endif%}
+            </div>
+         </section>
+         {%endfor%}
+         <div class="row">
+            <div class="col-md-12 flash navbar-fixed-bottom" >
+               {%endif%}
+               {%with messages=get_flashed_messages()%}
+               {%if messages%}
+               {%for message in messages%}
+               <span>{{message}}</span>
+               {%endfor%}
+               {%endif%}
+               {%endwith%}
+            </div>
+         </div>
+         <footer class="row">
+            <footer class="col-md-12 full signature">
+               <span class="credits">
+                  <h1>Created by : Samarth</h1>
+                  <h1><a href="https://github.com/dfg31197" target="_blank"><i class="fa fa-github links git"></i></a>
+                     <a href="https://www.facebook.com/profile.php?id=100009174349251" target="_blank"><i class="fa fa-facebook links fb"></i></a>
+                     <a href="https://www.linkedin.com/in/samarth-kamboj-0b7282144/" target="_blank"><i class="fa fa-linkedin-square links lin"></i></a>
+                  </h1>
+               </span>
+            </footer>
+         </footer>
       </article>
-  </body>
+   </body>
 </html>
