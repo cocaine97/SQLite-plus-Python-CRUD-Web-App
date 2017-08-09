@@ -8,14 +8,6 @@ ___
 * Bleach
 * Flask
 **Click [here](https://classroom.udacity.com/nanodegrees/nd004/parts/8d3e23e1-9ab6-47eb-b4f3-d5dc7ef27bf0/modules/bc51d967-cb21-46f4-90ea-caf73439dc59/lessons/5475ecd6-cfdb-4418-85a2-f2583074c08d/concepts/14c72fe3-e3fe-4959-9c4b-467cf5b7c3a0) for a guide to setting up the pre-requisite for the project**
-## Overview
-* The server side coding is in the file `webserver.py`.
-* Database queries are stored in form of functions in the file `queries.py` for better organized code.
-* HTML files are in the `Static` folder
-* Website runs on `localhost:5000/restaurants`
-* `Create,Update,Delete` operations can only be done while you're logged in.
-* App uses `Google OAuth2.0` for authentication
-
 ## Installation
 * Clone the repo
 * The end project is in the branch "flask"
@@ -23,6 +15,14 @@ ___
 * Run `vagrant up` and `vagrant ssh` on your terminal
 * Run `python webserver.py`
 * Go to `http://localhost:5000/restaurants` to get started
+
+## Overview
+* The server side coding is in the file `webserver.py`.
+* Database queries are stored in form of functions in the file `queries.py` for better organized code.
+* HTML files are in the `Static` folder
+* Website runs on `localhost:5000/restaurants`
+* `Create,Update,Delete` operations can only be done while you're logged in.
+* App uses `Google OAuth2.0` for authentication
 
 ## App Functionalities and Rules
 * Only `logged in users` are `allowed` to `Create Restaurant`,`Add item to Restaurants` and access `API Endpoints`
