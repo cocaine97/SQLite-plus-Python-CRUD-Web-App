@@ -117,6 +117,7 @@ def gconnect():
     return output
 
 
+# Code for disconnecting user
 @app.route('/gdisconnect')
 def gdisconnect():
     access_token = login_session.get('access_token')
@@ -152,6 +153,9 @@ def gdisconnect():
 def names():
     res_data = q.res_data()
     flag = 0
+    # Checking if the user is logged in
+    # Loads different buttons on the nav
+    # Depending upon the state
     if('username' in login_session):
         username = login_session['username']
         url = "#"
@@ -170,6 +174,7 @@ def names():
                                url=url)
 
 
+# Code for creating a restaurant
 @app.route('/restaurants/new', methods=['GET', 'POST'])
 def addRestaurant():
     if 'username' not in login_session:
@@ -183,16 +188,20 @@ def addRestaurant():
     return render_template('add_res.html')
 
 
+# Code for editing a restaurant
 @app.route('/restaurants/<int:res_id>/edit', methods=['GET', 'POST'])
 def editRestaurant(res_id):
     if 'username' not in login_session:
         return redirect('/login')
+    # Checking if it's the owner that's
+    # Trying to edit the restaurant
     res_owner = q.res_owner_id(res_id)
     if(res_owner != login_session['user_id']):
             return "Access Denied"
     res_name = q.res_name(res_id)
     if(request.method == "POST"):
         new_name = request.form['res_new_name']
+    # Checks if the fields were left empty
         if(new_name == '' or new_name == res_name):
             new_name = res_name
             flash('No changes made to {}'.format(new_name))
@@ -205,10 +214,13 @@ def editRestaurant(res_id):
     return render_template('edit_res.html', res_id=res_id, res_name=res_name)
 
 
+# Code for deleting a restaurant
 @app.route('/restaurants/<int:res_id>/delete', methods=['GET', 'POST'])
 def deleteRestaurant(res_id):
     if 'username' not in login_session:
         return redirect('/login')
+    # Checks if it's the owner thats
+    # Trying to delete the restaurant
     res_owner = q.res_owner_id(res_id)
     if(res_owner != login_session['user_id']):
             return "Access Denied"
@@ -220,18 +232,23 @@ def deleteRestaurant(res_id):
     return render_template('delete_res.html', res_id=res_id, res_name=res_name)
 
 
+# Code for displaying the menu page
 @app.route('/restaurants/<int:res_id>/menu/')
 def menu(res_id):
     menu_data = q.item_data(res_id)
     loggedIN = 0
+    # Checking if user is logged in
     if('username' in login_session):
         loggedIN = 1
         c_user = login_session['user_id']
     r_id = res_id
     owner_flag = 0
     res_owner = q.res_owner_id(res_id)
+    # Checking if user is the owner
     if(res_owner == login_session['user_id']):
         owner_flag = 1
+    # Distinguishing between different foods
+    # To be displayed in groups
     menu_entree = q.item_by_course(r_id, "Entree")
     menu_dessert = q.item_by_course(r_id, "Dessert")
     menu_appetizer = q.item_by_course(r_id, "Appetizer")
@@ -241,6 +258,7 @@ def menu(res_id):
     dessert_flag = 0
     appetizer_flag = 0
     beverage_flag = 0
+    # Hides the "Type" of food if not present
     if(menu_entree.first() is not None):
         entree_flag = 1
     if(menu_dessert.first() is not None):
@@ -253,6 +271,7 @@ def menu(res_id):
     flag = menu_data.first()
     res_name = q.res_name(res_id)
     if(loggedIN):
+        # Loads if the user is the owner of the restaurant
         return render_template('menu.html', owner_flag=owner_flag,
                                c_user=c_user, entree=menu_entree,
                                dessert=menu_dessert,
@@ -265,6 +284,7 @@ def menu(res_id):
                                res_name=res_name, r_id=res_id,
                                flag=flag, loggedIN=loggedIN)
     else:
+        # Loads if user isn't the owner
         return render_template('menu.html', entree=menu_entree,
                                dessert=menu_dessert,
                                appetizer=menu_appetizer,
@@ -279,6 +299,7 @@ def menu(res_id):
                                loggedIN=loggedIN)
 
 
+# Code for adding a new menu item
 @app.route('/restaurants/<int:res_id>/menu/create/', methods=['GET', 'POST'])
 def newMenuItem(res_id):
     if 'username' not in login_session:
@@ -299,6 +320,7 @@ def newMenuItem(res_id):
             item_desc = 'Empty'
         q.item_add(res_id, item_name, item_price,
                    item_desc, item_course, item_owner)
+        # Checks if someone other than me added menu item
         if(owner_email == dfg and login_session['user_id'] != res_owner):
             # Your Account SID from twilio.com/console
             account_sid = "AC7daf180961514118e4b7b8c1c6fae576"
@@ -306,7 +328,10 @@ def newMenuItem(res_id):
             auth_token = "c3f639dc94b32d51dd30068456675864"
 
             client = Client(account_sid, auth_token)
-
+            # Fires a message to my phone that someone added a menu item
+            # To my restaurant
+            # Could have added this for all users but storing phone numbers
+            # Seemed kinda risky
             message = client.messages.create(
                 to="+919779467318",
                 from_="+12407165865",
@@ -322,12 +347,15 @@ def newMenuItem(res_id):
     return render_template('create.html', res_id=res_id, res_name=res_name)
 
 
+# Code for editing a menu item
 @app.route('/restaurants/<int:res_id>/menu/<int:menu_id>/edit/',
            methods=['GET', 'POST'])
 def editMenuItem(res_id, menu_id):
     if 'username' not in login_session:
         return redirect('/login')
+    # Checking if you created the item
     item_owner = q.item_owner_id(res_id, menu_id)
+    # Checking if you're the restaurant owner
     res_owner = q.res_owner_id(res_id)
     if(res_owner != login_session['user_id'] and item_owner != login_session['user_id']):  # noqa
         return "Access Denied"
@@ -337,6 +365,7 @@ def editMenuItem(res_id, menu_id):
         item_desc = request.form['desc']
         item_course = request.form['course']
         item_old = q.item_data_p(res_id, menu_id)
+        # If fields are submitted empty, the old data stays put
         if(item_name == '' or item_price == '' or item_desc == ''):
             if(item_name == ''):
                 item_name = item_old.name
@@ -362,6 +391,7 @@ def editMenuItem(res_id, menu_id):
                            res_name=res_name, res_menu_data=res_menu_data)
 
 
+# Code for deleting a menu item
 @app.route('/restaurants/<int:res_id>/menu/<int:menu_id>/delete/', methods=['GET', 'POST'])  # noqa
 def deleteMenuItem(res_id, menu_id):
     if 'username' not in login_session:
@@ -381,7 +411,9 @@ def deleteMenuItem(res_id, menu_id):
     return render_template('delete_menu.html', res_name=res_name,
                            item_name=item_name, res_id=res_id, menu_id=menu_id)
 
-    # JSON Routes ---
+# JSON Routes ---
+# Nothing too fancy here, users who aren't logged in
+# Cannot access the endpoints
 
 
 @app.route('/restaurants/<int:res_id>/menu/JSON')
@@ -398,7 +430,6 @@ def res_JSON():
         return redirect('/login')
     res_data = q.res_data()
     return jsonify(Restaurant=[res.serialize for res in res_data])
-
 
 
 @app.route('/restaurants/<int:res_id>/menu/<int:menu_id>/JSON')
