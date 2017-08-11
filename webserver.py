@@ -236,17 +236,18 @@ def deleteRestaurant(res_id):
 @app.route('/restaurants/<int:res_id>/menu/')
 def menu(res_id):
     menu_data = q.item_data(res_id)
+    res_owner = q.res_owner_id(res_id)
     loggedIN = 0
+    owner_flag = 0
     # Checking if user is logged in
     if('username' in login_session):
         loggedIN = 1
         c_user = login_session['user_id']
+        # Checking if user is the owner
+        if(res_owner == login_session['user_id']):
+            owner_flag = 1
     r_id = res_id
-    owner_flag = 0
-    res_owner = q.res_owner_id(res_id)
-    # Checking if user is the owner
-    if(res_owner == login_session['user_id']):
-        owner_flag = 1
+
     # Distinguishing between different foods
     # To be displayed in groups
     menu_entree = q.item_by_course(r_id, "Entree")
