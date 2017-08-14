@@ -4,7 +4,7 @@ from database_setup import Base, Restaurant, MenuItem, User
 import bleach
 
 
-engine = create_engine('sqlite:///restaurantmenu.db')
+engine = create_engine('postgresql://catalog:dfg123abc@localhost/catalog')
 Base.metadata.bind = engine
 DBSC = sessionmaker(bind=engine)
 session = DBSC()

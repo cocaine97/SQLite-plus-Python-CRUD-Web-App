@@ -13,8 +13,9 @@ from twilio.rest import Client
 
 
 CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
+    open('/var/www/catalog/client_secrets.json', 'r').read())['web']['client_id']
 app = Flask(__name__)
+app.secret_key = "super secret key"
 # Create anti-forgery state token
 
 
@@ -39,7 +40,7 @@ def gconnect():
 
     try:
         # Upgrade the authorization code into a credentials object
-        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+        oauth_flow = flow_from_clientsecrets('/var/www/catalog/client_secrets.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
@@ -441,6 +442,5 @@ def res_menu_p_JSON(res_id, menu_id):
     return jsonify(MenuItem=[item_data.serialize])
 
 if(__name__ == "__main__"):
-    app.secret_key = "dfg12345"
     app.debug = True
     app.run(host="0.0.0.0", port=5000)
